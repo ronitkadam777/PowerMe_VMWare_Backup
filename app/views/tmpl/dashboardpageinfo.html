@@ -1,0 +1,420 @@
+<!-- HTML Code for Dashboard-Page Page-->
+
+<div class="page page-dashboard">
+
+  <div>
+    <div class="col-md-8" style="border-right: 1px solid #cccccc;background-color: white;">
+      <div class="row">
+        <div class="col-sm-1">
+          <img ng-src="{{system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"/>
+        </div>
+        <div class="col-xs-6" style="padding-left: 75px;padding-top: 18px; font-size: 20px;">
+
+          {{page.subtitle}}
+
+        </div>
+       
+   <div class="col-xs-3">
+                <div style="padding-top: 15px; padding-right: 15px">
+            <a ng-href="{{GoToDashboardPageURL}}"  target="_blank" ><div class="btn btn-info" style="background-color:#006990;">GoTo Dashboard</div></a>
+                </div>
+        </div>
+
+ 
+        <div class="col-xs-2">
+
+          <a href
+             ng-class="(bookMarkStats>0 ? 'icon icon-success' : 'icon icon-success icon-ef-3 icon-ef-3b icon-color')"
+             ng-click="(bookMarkStats>0 ? bookMarkIt('undo') : bookMarkIt('do'))"><i
+            class="fa fa-bookmark-o"></i></a>
+
+        </div>
+      </div>
+
+      <hr/>
+      <div class="row">
+        <div class="col-sm-4">
+          <strong>Application:</strong>
+        </div>
+        <div class="col-sm-8">
+          {{applicationName}}
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <strong>Dashboard Group Name:</strong>
+        </div>
+        <div class="col-sm-8">
+          {{department}}
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <strong>Dashboard:</strong>
+        </div>
+        <div class="col-sm-8">
+          {{dashboard}}
+        </div>
+
+      </div>
+      <!--<div class="row">-->
+        <!--<div class="col-sm-4">-->
+          <!--<strong>Description:</strong>-->
+        <!--</div>-->
+        <!--<div class="col-sm-8">-->
+          <!--{{dashboardPageDescription}}-->
+        <!--</div>-->
+
+      <!--</div>-->
+
+      <!--<br/>-->
+
+      <div class="row">
+        <div class="col-sm-12" ng-init="descs = []">
+          <table class="table table-striped table-bordered">
+            <colgroup>
+              <col width="100%">
+            </colgroup>
+            <tr>
+              <th colspan="{{currentUser.role !== 'CONSUMER' ? '2' : '1'}}">Description</th>
+            </tr>
+            <tr ng-repeat="d in desc.descs">
+              <td>
+                <span ng-if="!desc.edit">{{ d.text }}</span>
+                <textarea rows="5" type="text" class="form-control"
+                  placeholder="Update Description..."
+                  ng-model="d.text" ng-if="desc.edit" style="resize: none"
+                  required></textarea>
+                <!--  <textarea rows="{{ !desc.edit ? '' : '5' }}" type="text" class="form-control"
+                          placeholder="Update Description..."
+                          ng-model="d.text" ng-readonly="!desc.edit" style="resize: none"
+                          required></textarea> -->
+              </td>
+              <td ng-if="currentUser.role !== 'CONSUMER'" style="vertical-align: middle; ">
+                <button class="btn btn-lg  fa"
+                        ng-class="{'fa-edit btn-primary': !desc.edit, 'fa-save btn-success': desc.edit}"
+                        ng-click="desc.edit ? addDesc(d.text) : enableDescEdit(d)"
+                        popover="{{desc.edit ? 'Save Description Update' : 'Edit Description'}}"
+                        popover-placement="top" popover-trigger="mouseenter" style="background-color:#006990;"></button>
+                <button type="reset" class="btn btn-lg btn-default fa fa-undo" ng-click="resetDescEdit(d)"
+                        ng-if="desc.edit" popover="Cancel Update"
+                        popover-placement="bottom" popover-trigger="mouseenter"></button>
+              </td>
+            </tr>
+          </table>
+          <!--<span-->
+          <!--ng-if="dashboardPageData.hits.hits[0]._source['applications/sites'][0].group[0].dashboards[0].description !='NA'">{{dashboardPageData.hits.hits[0]._source['applications/sites'][0].group[0].dashboards[0].description}}</span>-->
+          <!--<span-->
+          <!--ng-if="dashboardPageData.hits.hits[0]._source['applications/sites'][0].group[0].dashboards[0].description ==''">-</span>-->
+
+          <!--<div style="max-height: 200px; overflow-y: auto">-->
+          <!--<div ng-repeat="d in desc.descs" class="list-group-item">-->
+          <!--<h5>{{ d.text }}</h5>-->
+          <!--<h5>-->
+          <!--<small>Added by {{ d.added_by }} on {{ d.added_on | date:'dd-MMM-yyyy HH:mm:ss' }}-->
+          <!--<button ng-click="deleteDesc($index)" ng-disabled="!currentUser.remove_desc"-->
+          <!--class="btn btn-xs btn-danger pull-right"><i class="fa fa-trash-o"></i></button>-->
+          <!--</small>-->
+          <!--</h5>-->
+          <!--</div>-->
+          <!--</div>-->
+        </div>
+      </div>
+      <br/>
+      
+      <div class="row">
+        <div class="col-sm-12" ng-init="descs = []">
+          <table class="table table-striped table-bordered">
+            <colgroup>
+              <col width="100%">
+            </colgroup>
+            <tr>
+              <th colspan="2">Playbook</th>
+            </tr>
+            <tr>
+              <td>
+	              <ui-select multiple ng-model="multipleDemo.selectedTags" theme="bootstrap"
+	                   on-select="onTag($item, $model)"
+	                   on-remove="onUntag($item, $model)"
+	                   ng-disabled="currentUser.role === 'CONSUMER' || taggingDisabledBlocked == true || taggingDisabledBlocked === TRUE">
+	          	  <ui-select-match placeholder="Select Playbook...">
+	            	<div style="padding-right: 15px" popover="{{$item.tagged_by}} - {{ $item.tagged_on | date }}"
+	                 popover-placement="bottom" popover-trigger="mouseenter">{{$item._source.tag_name}}
+	            	</div>
+	          	  </ui-select-match>
+	          	  <ui-select-choices repeat="tag in tags">
+	            		<span>{{tag._source.tag_name}}</span>
+	          	  </ui-select-choices>
+		        </ui-select>
+              </td>
+              
+              <td ng-if="currentUser.role !== 'CONSUMER'" style="vertical-align: middle; ">
+                <button class="btn btn-lg  fa"
+                        ng-class="{'fa-edit btn-primary': !desc.tag, 'fa-save btn-success': desc.tag}"
+                        ng-click="desc.tag ? disableTagging() : enableTagging()"
+                        popover="{{!desc.tag ? 'Enable Tags' : 'Disable Tags'}}"
+                        popover-placement="top" popover-trigger="mouseenter" style="background-color:#006990;"></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- 
+      <div class="row">
+        <div class="col-md-12">
+          <strong>Playbook:</strong>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <ui-select multiple ng-model="multipleDemo.selectedTags" theme="bootstrap"
+                     on-select="onTag($item, $model)"
+                     on-remove="onUntag($item, $model)"
+                     ng-disabled="currentUser.role === 'CONSUMER'">
+            <ui-select-match placeholder="Select Playbook...">
+              <div style="padding-right: 15px" popover="{{$item.tagged_by}} - {{ $item.tagged_on | date }}"
+                   popover-placement="bottom" popover-trigger="mouseenter">{{$item._source.tag_name}}
+              </div>
+            </ui-select-match>
+            <ui-select-choices repeat="tag in tags">
+              <span>{{tag._source.tag_name}}</span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+
+      <hr/>
+	-->
+
+      <br/>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <accordion>
+            <accordion-group is-open="status.open">
+              <accordion-heading>
+                Reports Info <i class="pull-right fa"
+                                ng-class="{'fa-angle-down': status.open, 'fa-angle-right': !status.open}"></i>
+              </accordion-heading>
+              <div class="row" ng-if="reportsInfo.length==0">
+                <div class="col-xs-6" style="color: red;">
+                  <h5>No reports to show</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6" ng-repeat="information in reportsInfo  | orderBy: 'reportName'"
+                     style="padding-bottom: 10px;">
+                  <div class="panel panel-default">
+                    <div class="panel-heading"
+                         style="height:30px;padding-left: 10px;padding-top: 5px;">
+                      <a
+                        ui-sref="app.reportDetail({system: information.system, application: information.application, dashboardGroupName: information.dashboardGroupName, dashboard: information.dashboard, dashboardPageName: information.dashboardPageName,reportName: information.reportName})">
+                        <h3 class="panel-title custom-font" title="{{information.reportName}}"
+                            ng-if="information.reportName.length>30">
+                          {{information.reportName.substring(0,30)+"..."}}</h3>
+
+                        <h3 class="panel-title custom-font" title="{{information.reportName}}"
+                            ng-if="information.reportName.length<=30">
+                          {{information.reportName}}</h3></a>
+                    </div>
+                    <div class="panel-body">
+                      <table style="width: 100%" cellspacing="1" cellpadding="1">
+                        <tr>
+                          <td><img
+                            ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                            width="50px" height="50px"/></td>
+                          <td>
+                            <table style="width: 100%">
+
+                              <!--   <tr>
+                                <td>Owner :</td>
+                                 <td><span ng-if="information.reportOwnerName!='NA' && information.reportOwnerName.length>13">{{information.reportOwnerName.substring(0,13)+"..."}}</span><span ng-if="information.reportOwnerName!='NA' && information.reportOwnerName.length<=13">{{information.reportOwnerName.substring(0,13)+"..."}}</span></td>
+                                </tr> -->
+                              <tr>
+                                <td>Application Name :</td>
+                                <td>{{information.application}}</td>
+                              </tr>
+                              <tr>
+                                <td>Average Ranking :</td>
+                                <td>
+                                  <div>
+                                    <div class="pull-left ">
+                                      <average-star-rating ng-model="information.averageRanking" max="5">
+                                        <average-star-rating>
+                                    </div>
+                                    <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                                  </div>
+                                  <!--<div ng-init="rating = information.averageRanking"-->
+                                  <!--class="mb-10" style="pointer-events:none;">-->
+                                  <!--<rating ng-model="rating" max="5"-->
+                                  <!--state-on="'fa fa-star text-orange text-lg'"-->
+                                  <!--state-off="'fa fa-star-o text-lg'"></rating>-->
+                                  <!--({{information.totalUsers}})-->
+                                  <!--</div>-->
+                                </td>
+                              </tr>
+
+                            </table>
+
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-sm-12">
+          <h5><strong>Post</strong></h5>
+        </div>
+      </div>
+
+      <!--<div class="row">-->
+      <!--<div class="col-xs-8">-->
+      <!--<div ng-init="userRating = 0" class="mb-10">-->
+      <!--<rating ng-model="userRating" max="5" state-on="'fa fa-star text-orange text-lg'"-->
+      <!--state-off="'fa fa-star-o text-lg'"></rating>-->
+      <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="col-xs-4">-->
+      <!--<div class="mb-10" style="pointer-events:none;">-->
+      <!--<rating ng-model="dashboardAverageRanking" max="5" state-on="'fa fa-star text-orange text-lg'"-->
+      <!--state-off="'fa fa-star-o text-lg'"></rating>-->
+      <!--({{totalRatingUsers}})-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+      <!--<div class="col-xs-10">-->
+
+
+      <!--<input type="text" class="form-control" id="userComments" ng-model="userComments"-->
+      <!--placeholder="Post Comments...">-->
+
+
+      <!--</div>-->
+      <!--<div class="col-xs-2">-->
+      <!--<button class="btn btn-ef btn-ef-1 btn-ef-1-primary btn-ef-1a mb-10" ng-click="postComments()">Add-->
+      <!--</button>-->
+      <!--</div>-->
+
+      <!--</div>-->
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="input-group input-group-lg">
+            <div class="input-group-addon" ng-init="userRating = 0">
+              <rating ng-model="userRating" max="5" state-on="'fa fa-star text-orange'"
+                      state-off="'fa fa-star-o'"></rating>
+            </div>
+            <input type="text" class="form-control" id="userComments" ng-model="userComments"
+                   placeholder="Post Comments...">
+
+            <div class="input-group-btn">
+              <button class="btn btn-ef btn-ef-1 btn-ef-1-primary btn-ef-1a" ng-click="postComments()">Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div class="row" ng-if="commentsStatus">
+        <div class="col-sm-8">
+          <h5><strong>Comments</strong></h5>
+        </div>
+        <div class="col-xs-4">
+          <div class="pull-left mb-10 mt-10">
+            <average-star-rating ng-model="dashboardAverageRanking" max="5">
+              <average-star-rating>
+          </div>
+          <div class="pull-left pl-10 mb-10 mt-10">({{totalRatingUsers}})</div>
+        </div>
+      </div>
+      <hr ng-if="commentsStatus"/>
+
+      <div class="row" ng-if="commentsStatus" ng-repeat="value in comments track by $index"
+           style="padding-bottom: 10px;">
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-4"><img class="thumb media-object img-circle" src="images/gray.jpg"
+                                       alt="">&nbsp;{{value.userName}}
+            </div>
+            <div class="col-sm-4" style="padding-top: 10px;">{{value.comments}}</div>
+          </div>
+        </div>
+        <div class="col-sm-4" style="padding-top: 18px;">
+          <div ng-init="rating = value.ratings" class="mb-10" style="pointer-events:none;">
+            <rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"
+                    state-off="'fa fa-star-o text-lg'"></rating>
+          </div>
+
+        </div>
+        <br ng-repeat="value in comments track by $index"/>
+      </div>
+      <hr ng-if="commentsStatus"/>
+
+    </div>
+
+    <div class="col-md-4" style="border-right: 1px solid #cccccc;background-color: white;">
+      <div>
+        <!-- <div id="DashboardPageUsageChart" style="padding-left: 75px;padding-top: 18px; font-size: 20px;"> -->
+        <div id="DashboardPageUsageChart" style="min-width: 310px; height: 400px; margin: 0 auto">
+        </div>
+      </div>
+      <br/>
+
+      <div>
+        <section class="tile tile-simple">
+
+          <!-- tile header -->
+          <div class="tile-header">
+            <h1 class="custom-font"><strong>Frequent</strong> Users</h1>
+
+            <div class="pull-right mt-10">
+              <i class="fa fa-users fa-2x"></i>
+            </div>
+
+          </div>
+          <!-- /tile header -->
+
+          <!-- tile body -->
+          <div class="tile-body">
+
+            <div class="media " ng-repeat="info in FrequentUserNames">
+              <div class="pull-left thumb">
+                <img class="media-object img-circle" src="images/gray.jpg" alt="">
+              </div>
+              <div class="pull-right mt-10">
+
+                <button type="button" class="btn btn-rounded-20 btn-default btn-sm" style="width:30px;"><i
+                  class="fa fa-eye" style="margin-left: -2px;"></i></button>
+              </div>
+              <div class="media-body">
+                <p class="media-heading mb-0 mt-10"><strong>{{info}}</strong> <span class="badge">{{ FrequentUserUsageCount[$index] }}</span>
+                </p>
+                <!-- <small class="text-lightred">Manager, EIM</small> -->
+              </div>
+              <hr/>
+            </div>
+
+
+          </div>
+          <!-- /tile body -->
+
+        </section>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>

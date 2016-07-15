@@ -1,0 +1,97 @@
+<div class="page page-dashboard">
+  <div class="container-fluid bg-white">
+    <div class="row" style="margin-bottom: 20px">
+      <div class="col-xs-1" style="margin-top:13px">
+        <fa name="users" class="fa-4x"></fa>
+      </div>
+      <div class="col-xs-11">
+        <h1>Persona Maintenance</h1>
+      </div>
+      </br>
+    </div>
+    <!--changes made by shalini 11/6/2015    -->
+    <div class="row">
+      <div class="col-xs-2" style="padding-top: 20px;">
+        <input type="text" class="form-control" id="inputsearchPersona" placeholder="Search Personas"
+               ng-model="filterData" ng-change="filterPersona()">
+      </div>
+    </div>
+    <!--  -->
+    <div class="row" ng-if="1 === 2">
+      <form name="personaForm" class="form-inline col-sm-12"
+            submit="addUser(user_name, roles); user_name='';roles='';">
+        <input placeholder="Username" class="form-control " type="text" required
+               ng-model="user_name" ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9]*$/">
+        <select placeholder="Select Persona..." class="form-control " ng-model="roles"
+                ng-options="persona._id as persona._source.role_name for persona in personas | filter : {$: '!' + currentUser.role}"
+                required></select>
+        <button class="btn btn-primary"
+                ng-disabled="!personaForm.$valid || (options.tableData | filter : {_id:user_name}: true).length > 0"
+                type="submit">Add User
+        </button>
+      </form>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 table-responsive">
+        <table ng-table="tableParams" class="table table-striped">
+          <colgroup>
+            <col width="15%"/>
+            <col width="45%"/>
+            <col width="20%"/>
+            <col width="20%"/>
+          </colgroup>
+          <!-- changes made for search,sort and pagination -shalini on 11/09/2015:11/12/2015 -->
+          <thead>
+          <tr>
+            <th ng-click="sort('user_name')">User Names&nbsp;&nbsp;<span class="glyphicon glyphicon-triangle-top"
+                                                                         ng-show="sortKey=='user_name'"
+                                                                         ng-class="{'glyphicon glyphicon-triangle-top':reverse,'glyphicon glyphicon-triangle-bottom':!reverse}"></span>
+            </th>
+            <th ng-click="sort('roles')">Persona&nbsp;&nbsp;<span class="glyphicon glyphicon-triangle-top"
+                                                                  ng-show="sortKey=='roles'"
+                                                                  ng-class="{'glyphicon glyphicon-triangle-top':reverse,'glyphicon glyphicon-triangle-bottom':!reverse}"></span>
+            </th>
+            <th>Add Description</th>
+            <th>Remove Description</th>
+          </tr>
+          </thead>
+          <!--<div class="col-xs-6 text-right" style="right:-250px;">-->
+          <!--<dir-pagination-controls-->
+          <!--max-size="100"-->
+          <!--direction-links="true"-->
+          <!--boundary-links="true">-->
+          <!--</dir-pagination-controls>-->
+          <!--</div>-->
+          <tr ng-repeat="user in $data">
+            <td>
+              <span>{{user.user_name}}</span>
+            </td>
+            <td>
+              <span ng-if="!user.$edit">{{(personas | filter : {$: user.roles}:true)[0]._source.role_name}}</span>
+              <select ng-if="user.$edit" placeholder="Select Persona..." class="form-control "
+                      ng-model="user.roles"
+                      ng-options="persona._id as persona._source.role_name for persona in personas | filter : {$: '!' + currentUser.role}"
+                      required></select>
+            </td>
+            <td>
+              <input ng-model="user.add_desc" type="checkbox"
+                     ng-disabled="currentUser.role.indexOf('ADMIN') === -1 || !user.$edit">
+            </td>
+            <td>
+              <input ng-model="user.remove_desc" type="checkbox"
+                     ng-disabled="currentUser.role.indexOf('ADMIN') === -1 || !user.$edit">
+            </td>
+            <td data-title="'Actions'" width="200" ng-show="currentUser.role.indexOf('ADMIN') != -1">
+              <button ng-if="!user.$edit" class="btn btn-success fa fa-edit"
+                      ng-click="user.$edit = true"
+                      ng-disabled="currentUser.role === user.roles || user.roles === 'SUPERADMIN'"></button>
+              <button ng-if="user.$edit" class="btn btn-primary fa fa-save"
+                      ng-click="user.$edit = false; saveUser(user)"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

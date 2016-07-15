@@ -1,0 +1,176 @@
+<head>
+<style>
+body {
+  background-image: url("../../images/textured_paper.png");
+}
+        
+.section: hover .section-overlay.top {
+    top: 0;
+}
+.section-overlay {
+  position: relative;
+  top: 0; right: 0; bottom: 0; left: 0;
+
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+
+  -moz-transition: top 0.5s, right 0.5s, bottom 0.5s, left 0.5s;
+  -webkit-transition: top 0.5s, right 0.5s, bottom 0.5s, left 0.5s;
+  transition: top 0.2s, right 0.2s, bottom 0.2s, left 0.2s;
+}
+
+.section-overlay.top {
+  top: 100%;
+}
+
+.section {
+  left:0%;
+  right:15%;
+  position: relative;
+  overflow: hidden;
+  height:100%;
+  width:100%;
+  display:inline-block;
+  margin-left:1%;
+  margin-right:1%;
+  margin-top:1%;
+  margin-bottom:1%;
+  
+}
+.section img {
+  max-width: 100%;
+}
+/* end of misc. CSS */
+.section h2{
+	position: absolute;
+	left: 0;
+	top: 20%;
+	padding: 5%;
+	width: 100%;
+	color: #FFF;
+	margin: 5%;
+	text-align:center;
+	font-family: 'Roboto', sans-serif;
+	font-weight:normal;
+    font-size:150%;
+
+}
+.section h5{
+	position: absolute;
+	left: 0;
+	top: 55%;
+	padding: 5%;
+	width: 100%;
+	color: #8dcc8a;
+	margin: 0%;
+	text-align:center;
+	font-family: 'Roboto', sans-serif;
+	font-weight:normal;
+    font-size:90%;
+
+}
+
+.section > .tile {
+    width: 85%;
+    height: 50%;
+    cursor: pointer;
+  }
+
+  .section > .overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    transition: top  0.5s ease-in-out;
+    width: 85%;
+    height: 93%;
+  }
+
+  .section:hover > .overlay {
+    top: -100%;
+  }
+
+
+</style>
+<link rel="stylesheet" type="text/css" href="../../styles/landingStyle.css">
+</head>
+<body>
+    <br>
+    <br>
+    <div class="container" ng-claok style="margin-left:-2%">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ui-sref="app.dashboard">
+	       <div class="section">
+	           <div class="tile" ui-sref="app.dashboard">
+	               <img src="../../images/CardImage_Dashboard.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay" >
+	               <h2 align="center">DASHBOARD<br></h2>
+	               <h5 align="center">Single stop to <br> every Enterprise Dashboard</h5>
+	           </div>
+	       </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+	       <div class="section">
+	           <div class="tile" ui-sref="app.analysis">
+	               <img src="../../images/CardImage_Analyze.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay">
+	               <h2 align="center">ANALYZE<br></h2>
+	               <h5 align="center">Compare statistics of <br> multiple assets</h5>
+	           </div>
+	       </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+	       <div class="section">
+	           <div class="tile" ui-sref="app.ComplianceKeyAssets">
+	               <img src="../../images/CardImage_Compliance.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay">
+	               <h2 align="center">COMPLIANCE<br></h2>
+	               <h5 align="center">Overview of <br>compliance statistics</h5>
+	           </div>
+	       </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+	       <div class="section">
+	           <div class="tile" ui-sref="app.bookmark">
+	               <img src="../../images/CardImage_Bookmarks.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay">
+	               <h2 align="center">BOOKMARKS<br></h2>
+	               <h5 align="center">Revisit all your <br> important items</h5>
+	           </div>
+	       </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            <div class="section">
+	           <div class="tile" ui-sref="app.datadictionary">
+	               <img src="../../images/CardImage_DataDictionary.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay">
+	               <h2 align="center">DATA<br> DICTIONARY</h2>
+	               <h5 align="center">Data Attribute Information</h5>
+	           </div>
+	       </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+	       <div class="section">
+	           <div class="tile" ui-sref="app.tags">
+	               <img src="../../images/CardImage_Playbooks.png" alt="" width="100%" height="100%">
+	           </div>
+	           <div class="overlay">
+	               <h2 align="center">PLAYBOOKS<br></h2>
+	               <h5 align="center">Configure Tags <br> and much more</h5>
+	           </div>
+	       </div>
+        </div>
+    </div>
+</body>

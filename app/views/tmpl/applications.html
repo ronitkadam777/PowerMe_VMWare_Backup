@@ -1,0 +1,77 @@
+
+<div class="page page-dashboard">
+
+  <!-- <div class="pageheader">
+
+    <h2>{{page.title}} <span>// {{page.subtitle}}</span></h2>
+
+    <div class="page-bar">
+
+      <ul class="page-breadcrumb">
+        <li>
+          <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
+        </li>
+        <li>
+          <a ui-sref="app.dashboard">{{page.title}}</a>
+        </li>
+        <li>
+          <a ui-sref="app.dashboard">{{page.subtitle}}</a>
+        </li>
+      </ul>
+
+      <div ng-controller="DaterangepickerCtrl" class="page-toolbar">
+        <a href="javascript:;" class="btn btn-lightred no-border" daterangepicker="rangeOptions" date-begin="startDate" date-end="endDate">
+          <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>{{startDate}} - {{endDate}}</span>&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+        </a>
+      </div>
+
+    </div>
+
+  </div> -->
+
+
+ <div >
+ <div class="col-md-12" style="border-right: 1px solid #ccc;background-color: white;">
+ 		<div class="row" >
+          <div class="col-sm-1" >
+            <img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}" />
+          </div >
+          <div class="col-xs-9" style="padding-left: 75px;padding-top: 18px; font-size: 20px;">
+        
+           {{page.subtitle}}
+           
+           </div>
+         </div>
+         
+
+ 
+      <hr/>
+          <div  class="row">
+    
+    	<div class="col-xs-4" ng-repeat="information in subjectAreas | orderBy: -information" >
+    	<span class="glyphicon glyphicon-folder-close" style="height: 40px;width: 40px;"></span>&nbsp;     <a ui-sref="app.subjectarea({system: '{{params.system}}', application :'{{params.application}}',subjectArea:'{{information}}'})">             
+                {{information}}</a>
+     <!-- <div class="panel panel-default">
+        <div class="panel-heading">
+         <a ui-sref="app.subjectarea({system: '{{params.system}}', application :'{{params.application}}',subjectArea:'{{information.dashboardGroupName}}'})">             <h3 class="panel-title custom-font" title="{{information.dashboardGroupName}}" ng-if="information.dashboardGroupName.length>30">{{information.dashboardGroupName.substring(0,30)+"..."}}</h3>
+                 <h3 class="panel-title custom-font" title="{{information.dashboardGroupName}}" ng-if="information.dashboardGroupName.length<=30" >{{information.dashboardGroupName}}</h3></a>
+              </div> 
+              <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+               <tr>
+                <td> <img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"   width="50px" height="50px"/></td>
+                <td>
+                  &nbsp;
+                
+                </td>
+               </tr>
+              </table>
+              </div>
+            </div> -->
+     </div>
+  </div>
+ </div>
+     
+
+ </div>
+  </div>

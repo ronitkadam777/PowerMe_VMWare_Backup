@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <br>
+        <br>
+        <h3>Key Asset Management <fa name="gavel"></fa></h3>
+        <table class="table table-striped">
+            <tr>
+                <td>Key Asset</td>
+                <td>Application</td>
+                <td>Delete</td>
+            </tr>
+        <tr ng-repeat="item in keyAssets">
+            <td>{{item.dashboard_name}}</td>
+            <td>{{item.application_Name}}</td>
+            <td><div class="btn btn-xs btn-danger" ng-click="spliceOut($index)"><i class="fa fa-trash-o" aria-hidden="true"></i></div></td>
+        </tr>
+        </table>
+    </div>
+</div>

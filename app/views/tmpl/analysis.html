@@ -1,0 +1,247 @@
+
+<div class="page page-dashboard">
+
+<div class="row" style="text-align: center">
+	<div class="col-xs-12 checkbox-inline">
+
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="chartType" value="application">
+			<i></i> Application
+		</label>
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="chartType" value="dashboardGroup">
+			<i></i> Dashboard Group
+		</label> 
+        <label
+			class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+			<input type="radio" ng-model="chartType" value="dashboard">
+			<i></i> Dashboard
+		</label>
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="chartType" value="page">
+			<i></i> Page
+		</label>
+    </div>
+</div>
+
+
+<div class="container">
+
+
+<div style="margin-top: 20px;">
+	<div class="">
+		<div ng-show="chartType == 'application' || chartType == 'dashboardGroup' || chartType == 'dashboard' || chartType == 'page'" style="float: left; margin-right:10px;" >
+			<div style="float: left; margin-right: 8px; margin-top: 6px;">Application: </div>
+			<div style="float: left;">
+			<div
+				    isteven-multi-select
+				    input-model="applications"
+				    output-model="selectedApplications"
+				    button-label="application"
+				    item-label="application"
+				    tick-property="ticked"
+				    max-labels="1"
+					on-close="appClose()"
+				></div>
+			</div>
+		</div>
+
+		<div ng-show="chartType == 'dashboardGroup' || chartType == 'dashboard' || chartType == 'page'" style="float: left; margin-right:10px;">
+			<div style="float: left; margin-right: 8px; margin-top: 6px;">Dashboard Group: </div>
+			<div style="float: left;">
+				<div
+				    isteven-multi-select
+				    input-model="DBGFromSelectedApps"
+				    output-model="selectedDashboardGroups"
+				    button-label="subjectArea"
+				    item-label="subjectArea"
+				    tick-property="ticked"
+				    max-labels="1"
+				    on-close="dbGroupClose()"
+				    group-property="msGroup"
+				></div>
+			</div>
+		</div>
+
+		<div ng-show="chartType == 'dashboard' || chartType == 'page'" style="float: left; margin-right:10px;">
+			<div style="float: left; margin-right: 8px; margin-top: 6px;">Dashboard: </div>
+			<div style="float: left;">
+			<div
+			    isteven-multi-select
+			    input-model="dashboardsFromSelectedGroups"
+			    output-model="selectedDashboards"
+			    button-label="dbName"
+			    item-label="dbName"
+			    tick-property="ticked"
+			    max-labels="1"
+			    group-property="msGroup"
+			    on-close="dbClose()"
+			></div>
+		    </div>
+		</div>
+
+
+		<div ng-show="chartType == 'page'" style="float: left; margin-right:10px;">
+			<div style="float: left; margin-right: 8px; margin-top: 6px;">Page: </div>
+			<div style="float: left;">
+
+			<div
+				    isteven-multi-select
+				    input-model="pgFromSelectedDbs"
+				    output-model="selectedPages"
+				    button-label="pgName"
+				    item-label="pgName"
+				    tick-property="ticked"
+				    max-labels="1"
+					group-property="msGroup"
+				></div>
+
+			</div>
+		</div>
+		<div style="float: left;">
+		   <button class="btn btn-primary" ng-click="renderChart(); table()" ng-disabled="disableRender">Render <i class="fa fa-line-chart"></i> &nbsp; </button>
+		   
+		</div>
+	</div>
+</div>
+<div>
+
+
+
+
+
+
+</div>
+</div>
+<div class="row" style="margin-top: 20px">
+	<div class="col-md-12">
+		<div id="dbGroupChart"></div>
+	</div>
+</div>
+<!--
+<div ng-show = "selectedApplications.length > 0" class="row">
+	<div class="col-md-6">
+	Table1
+	</div>
+	<div class="col-md-6">
+	Table2
+	</div>
+</div>
+-->
+<div ng-show = "selectedApplications.length">
+	<div class="row">
+        <div class="col-md-4">
+            <br>
+			<span style="font-size:24px;"><b>Most Used </b>Dashboards</span>
+                <a class="btn" title="Export Table" ng-click='csv1.generate()' ng-href="{{ csv1.link() }}" download="MostUsedDashboards.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export
+                </a>
+			<div class="table-responsive" ng-show = "selectedApplications.length > 0 && chartType != 'page'">
+				<table ng-table="options.tableParams" class="table table-striped" export-csv="csv1" separator=",">
+          <colgroup>
+            <col width="70%">
+          </colgroup>
+                    <tr ng-if='chartType === "application"'>
+                        <td ng-show=false>Dashboards from Applications: {{Table_SelectedApplications}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboardGroup"'>
+                        <td ng-show=false>Dashboards from Dashboard Groups: {{Table_SelectedDB_Groups}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboard"'>
+                        <td ng-show=false>Dashboards paths: {{Table_SelectedDBs}}</td>
+                    </tr>
+                    <tr>
+                        <td data-title="'Popular Dashboards'" width="250">Popular Dashboards</td>
+                        <td data-title="'Hits'" width="250">Hits</td>
+                    </tr>
+                    <tr ng-repeat="tag in $data">
+						<td width="250">
+							<span>{{tag.key}}</span>
+						</td>
+						<td>
+							<span>{{tag.result.value}}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="col-md-4">
+            <br>
+			<span style="font-size:24px;"><b>Least Used </b>Dashboards</span>
+                <a class="btn" title="Export Table" ng-click='csv2.generate()' ng-href="{{ csv2.link() }}" download="LeastUsedDashboards.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export
+                </a>
+
+			<div class="table-responsive" ng-show = "selectedApplications.length > 0 && chartType != 'page' ">
+				<table ng-table="options.tableParams_desc" class="table table-striped" export-csv="csv2" separator=",">
+          <colgroup>
+            <col width="70%">
+          </colgroup>
+					<tr ng-if='chartType === "application"'>
+                        <td ng-show=false>Dashboards from Applications: {{Table_SelectedApplications}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboardGroup"'>
+                        <td ng-show=false>Dashboards from Dashboard Groups: {{Table_SelectedDB_Groups}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboard"'>
+                        <td ng-show=false>Dashboards paths: {{Table_SelectedDBs}}</td>
+                    </tr>
+                    <tr>
+                        <td data-title="'Popular Dashboards'" width="250">Popular Dashboards</td>
+                        <td data-title="'Hits'" width="250">Hits</td>
+                    </tr>
+                    <tr ng-repeat="tag in $data">
+						<td width="250">
+							<span>{{tag.key}}</span>
+						</td>
+						<td>
+							<span>{{tag.result.value}}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div class="col-md-4">
+            <br>
+		    <span style="font-size:24px;"><b>Popular </b>Users</span>
+                <a class="btn" title="Export Table" ng-click='csv3.generate()' ng-href="{{ csv3.link() }}"
+                    download="PopularUsers.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export
+                </a>
+			<div class="table-responsive" ng-show = "selectedApplications.length > 0 && chartType != 'page'">
+            <table ng-table="options.UserTable" class="table table-striped" export-csv="csv3" separator=",">
+          <colgroup>
+            <col width="70%">
+          </colgroup>
+					<tr ng-if='chartType === "application"'>
+                        <td ng-show=false>Users from Applications: {{Table_SelectedApplications}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboardGroup"'>
+                        <td ng-show=false>Users from Dashboard Groups: {{Table_SelectedDB_Groups}}</td>
+                    </tr>
+                    <tr ng-if='chartType === "dashboard"'>
+                        <td ng-show=false>Users paths: {{Table_SelectedDBs}}</td>
+                    </tr>
+                    <tr>
+                        <td data-title="'Popular Dashboards'" width="250">Popular Dashboards</td>
+                        <td data-title="'Hits'" width="250">Hits</td>
+                    </tr>
+                    <tr ng-repeat="tag in $data">
+						<td width="250">
+							<span>{{tag.key}}</span>
+						</td>
+						<td>
+							<span>{{tag.result.value}}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+
+</div>

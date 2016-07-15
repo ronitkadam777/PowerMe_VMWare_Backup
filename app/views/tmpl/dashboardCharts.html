@@ -1,0 +1,57 @@
+
+<div class="page page-dashboard" ng-controller="DashboardChartsCtrl">
+
+<div class="row" style="text-align: center">
+	<div class="col-xs-12 checkbox-inline">
+
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="chartType" value="dashboardGroup">
+			<i></i> Dashboard Group
+		</label> <label
+			class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+
+			<input type="radio" ng-model="chartType" value="dashboard">
+			<i></i> Dashboard
+		</label>
+
+	</div>
+</div>
+
+<div class="row" style="margin-top: 20px">
+
+	<div class="col-md-4">
+		<select class="form-control" ng-model="selectedDashboardGroup"
+			ng-options="dashboardGroup.subjectArea for dashboardGroup in dashboardGroupsObj"
+			ng-change="dgGroupChange();"></select>
+	</div>
+	<div class="col-md-4" ng-show="chartType == 'dashboard'">
+		<select class="form-control" ng-model="selectedDashboardName"
+			ng-options="dashboardName.label as dashboardName.label for dashboardName in dashboardNamesByGroup"></select>
+	</div>
+	<div class="col-md-4">
+		<button class="btn btn-primary" ng-click="renderChart();">Render <i class="fa fa-line-chart"></i> &nbsp; </button>
+	</div>
+
+</div>
+<div class="row" style="margin-top: 20px">
+<div class="col-md-12">
+	<div id="dbGroupChart"></div>
+</div>
+</div>
+
+
+	<div class="row" style="margin-top: 20px">
+		
+		<!-- <div append-source>
+			
+			<button type="button" class="btn btn-default"
+				ng-model="selectedIcons" data-html="1" data-multiple="1"
+				data-animation="am-flip-x"
+				bs-options="dashboardGroupName as dashboardGroupName for dashboardGroupName in dashboardGroupNames" bs-select>
+				Action <span class="caret"></span>
+			</button>
+		</div> -->
+		
+		
+</div>
+</div>

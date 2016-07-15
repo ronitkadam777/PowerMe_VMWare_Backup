@@ -1,0 +1,7 @@
+{
+    "ssl": {
+        "pfx": "ssl/dev/montage.dev.ebay.com.pfx",
+        "passphrase": ">%>^&$>6",
+        "key": "ssl/dev/privkey.pem"
+    }
+}

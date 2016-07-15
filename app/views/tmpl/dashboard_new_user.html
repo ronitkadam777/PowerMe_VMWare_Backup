@@ -1,0 +1,59 @@
+<div class="page page-dashboard">
+  <div>
+    <h3>Hi {{currentUser.fullname}},<br>
+    Welcome to BI Catalog!</h3>
+    <h4>Here are your Bookmarks :</h4>
+    <div class="col-md-4"
+         dir-paginate="information in bookmarksDashboards | filter : filterData | filter : filterByCriteria | orderBy: sortedData | itemsPerPage: 12">
+      <div class="panel panel-default">
+        <div class="panel-body" style="border-top: 2px solid green;">
+          <table style="width: 100%" cellspacing="1" cellpadding="1">
+            <tr>
+              <td colspan="2">
+                <table style="width: 100%">
+                  <tr>
+                    <td><a
+                      ui-sref="app.dashboardInfo({system: '{{information.system}}', application :'{{information.application}}',subjectArea:'{{information.dashboardGroupName}}',dashboard:'{{information.dashboard}}'})"
+                      style="font-size: x-small;font-weight: 20px;"><span class="panel-title custom-font"
+                                                                          title="{{information.dashboard}}"
+                                                                          ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</span>
+                      <span class="panel-title custom-font" title="{{information.dashboard}}"
+                            ng-if="information.dashboard.length<=30">{{information.dashboard}}</span></a></td>
+                    <td align="right"><a href ng-click="bookMarkIt('{{information.id}}','dashboard')"><i
+                      class="fa fa-bookmark"></i></a></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                       width="50px" height="50px" style="border: 1px solid #A5A5A5; border-radius:6px;"/></td>
+              <td>
+                <table style="width: 100%">
+                  <tr>
+                    <td>Application Name :</td>
+                    <td>{{information.application}}</td>
+                  </tr>
+                  <tr>
+                    <td>Usage Count :</td>
+                    <td>{{information.totalCount}}</td>
+                  </tr>
+                  <tr>
+                    <td>Average Ranking :</td>
+                    <td>
+                      <div ng-init="rating = information.averageRanking" class="mb-10" style="pointer-events:none;">
+                        <rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"
+                                state-off="'fa fa-star-o text-lg'"></rating>
+                        ({{information.totalUsers}})
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+{
+    "ssl": {
+        "pfx": "ssl/prod/montage.vip.ebay.com.pfx",
+        "passphrase": "T{K@l%^}",
+        "key": "ssl/prod/privkey.pem"
+    }
+}

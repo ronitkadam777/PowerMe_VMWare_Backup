@@ -1,0 +1,7 @@
+{
+    "ssl": {
+        "pfx": "ssl/int/montage.int.ebay.com.pfx",
+        "passphrase": "tFXtrf$_",
+        "key": "ssl/int/privkey.pem"
+    }
+}

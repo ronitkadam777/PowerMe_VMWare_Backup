@@ -1,0 +1,340 @@
+<div class="page page-dashboard">
+
+  <!-- <div class="pageheader">
+
+    <h2>{{page.title}} <span>// {{page.subtitle}}</span></h2>
+
+    <div class="page-bar">
+
+      <ul class="page-breadcrumb">
+        <li>
+          <a ui-sref="app.dashboard"><i class="fa fa-home"></i> {{main.title}}</a>
+        </li>
+        <li>
+          <a ui-sref="app.dashboard">{{page.title}}</a>
+        </li>
+        <li>
+          <a ui-sref="app.dashboard">{{page.subtitle}}</a>
+        </li>
+      </ul>
+
+      <div ng-controller="DaterangepickerCtrl" class="page-toolbar">
+        <a href="javascript:;" class="btn btn-lightred no-border" daterangepicker="rangeOptions" date-begin="startDate" date-end="endDate">
+          <i class="fa fa-calendar"></i>&nbsp;&nbsp;<span>{{startDate}} - {{endDate}}</span>&nbsp;&nbsp;<i class="fa fa-angle-down"></i>
+        </a>
+      </div>
+
+    </div>
+
+  </div> -->
+
+  <div class="row" style="text-align: center">
+    <div class="col-xs-12 checkbox-inline">
+
+      <strong>Filter By:</strong>&nbsp; <label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+      <input name="customRadioAlt" type="radio" value="System" ng-model="filterCriteria"
+             ng-click="getFilterTypes()"><i></i> System
+    </label>
+      <label class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+        <input name="customRadioAlt" type="radio" value="Departments" ng-model="filterCriteria"
+               ng-click="getFilterTypes()"><i></i> Applications
+      </label>
+      <label class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+        <input name="customRadioAlt" type="radio" value="ALL" ng-model="filterCriteria"
+               ng-click="getFilterTypes()"><i></i> ALL
+      </label><!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <strong>Filter By:</strong>&nbsp;<div id="reportrange" class="page-toolbar btn btn-lightred no-border" ng-controller="DaterangepickerCtrl" >
+	    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+	    <span></span> <b class="caret"></b>
+	</div> -->
+      <!--
+      <label class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+        <input name="customRadioAlt" type="radio" value="" ng-model="" ng-click=""><i></i> Business Function
+      </label>
+      <label class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+        <input name="customRadioAlt" type="radio" value="Applications" ng-model="filterCriteria" ng-click="getFilterTypes()"><i></i> Applications
+      </label>
+      <label class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+        <input name="customRadioAlt" type="radio" value="Dashboards" ng-model="filterCriteria" ng-click="getFilterTypes()"><i></i> Dashboards
+      </label>
+-->
+
+    <span ng-click="sortBookmarks(sortedData === 'dashboard' ? '-dashboard' : 'dashboard')"
+          style="cursor: pointer; padding-left: 15px">Dashboard Name <i
+      class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'dashboard'}"></i><i
+      class="glyphicon glyphicon-triangle-bottom" ng-class="{'text-success': sortedData === '-dashboard'}"></i></span>
+      <span ng-click="sortBookmarks(sortedData === 'averageRanking' ? '-averageRanking' : 'averageRanking')"
+            style="cursor: pointer; padding-left: 15px">Average Ranking <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'averageRanking'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-averageRanking'}"></i></span>
+      <span ng-click="sortBookmarks(sortedData === 'application' ? '-application' : 'application')"
+            style="cursor: pointer; padding-left: 15px">Application Name <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'application'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-application'}"></i></span>
+      <span ng-click="sortBookmarks(sortedData === 'totalCount' ? '-totalCount' : 'totalCount')"
+            style="cursor: pointer; padding-left: 15px">Usage Count <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'totalCount'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-totalCount'}"></i></span>
+      <span ng-click="sortBookmarks(sortedData === 'createdDate' ? '-createdDate' : 'createdDate')"
+            style="cursor: pointer; padding-left: 15px">Created Date <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'createdDate'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-createdDate'}"></i></span>
+
+    </div>
+  </div>
+  <br/>
+
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->
+
+  <div class="row" style="text-align: center">
+    <div class="col-xs-12 checkbox-inline">
+      <label class="checkbox-inline checkbox-custom checkbox-custom-lg" ng-repeat="k in filterInfo track by $index"
+             ng-if="filterCriteria === 'System'">
+        <input name="departmentInline" type="radio" value="{{k}}" ng-model="filterOptions.system"><i></i> {{k}}
+      </label>
+      <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg" ng-repeat="k in filterInfo track by $index"
+             ng-if="filterCriteria === 'Departments'">
+        <input name="departmentInline" type="checkbox" value="{{k}}" ng-model="filterOptions.applications[k]"><i></i>
+        {{k}}
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <strong>Showing {{results}} of {{results}} results</strong>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom:10px;">
+    <div class="col-xs-2" style=" display:inline-block;">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="Search Bookmarks" ng-model="filterData">
+    </div>
+    <div class="view-bar" style="display:inline-block;">
+      <fa name="th" class="fa-4x" class="tile-view" ng-class="{active: layout == 'tile'}" ng-click="layout = 'tile'" title="Tile View" style="font-size:30px;"></fa>&nbsp;
+      <fa name="list" class="fa-4x" class="list-view" ng-class="{active: layout == 'list'}" ng-click="layout = 'list'" title="List View" style="font-size:30px;"></fa>  
+    </div>
+  </div>
+  
+  <ul ng-show="layout=='tile'" class="tile">
+    <div class="row">
+      <div class="col-xs-6 text-right" style="right:-550px;">
+          <dir-pagination-controls 
+          max-size="10"
+          direction-links="true"
+          boundary-links="true">
+          </dir-pagination-controls>
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-md-4" 
+         dir-paginate="information in bookmarksDashboards | filter : filterData | filter : filterByCriteria | orderBy: sortedData | itemsPerPage: 10">
+        <div class="panel panel-default" style="margin-top:15px; margin-down:15px; margin-right:20px; margin-left:-15px">
+          <div class="panel-body" style="border-top: 2px solid green;">
+            <table style="width: 100%" cellspacing="1" cellpadding="1">
+              <tr>
+                <td colspan="2">
+                  <table style="width: 100%">
+                    <tr>
+                      <td><a
+                        ui-sref="app.dashboardInfo({system: '{{information.system}}', application :'{{information.application}}',subjectArea:'{{information.dashboardGroupName}}',dashboard:'{{information.dashboard}}'})"
+                        style="font-size: x-small;font-weight: 20px;"><span class="panel-title custom-font"
+                                                                            title="{{information.dashboard}}"
+                                                                            ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</span>
+                        <span class="panel-title custom-font" title="{{information.dashboard}}"
+                              ng-if="information.dashboard.length<=30">{{information.dashboard}}</span></a></td>
+                      <td align="right"><a href ng-click="bookMarkIt('{{information.id}}','dashboard')"><i
+                        class="fa fa-bookmark"></i></a></td>  
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                       width="50px" height="50px" style="border: 1px solid #A5A5A5; border-radius:6px;"/></td>
+                <td>
+                  <table style="width: 100%">
+                    <tr>
+                      <td>Application :</td>
+                      <td>{{information.application}}</td>
+                    </tr>
+                    <tr>
+                    <tr>
+                      <td>Usage Count :</td>
+                      <td>{{information.totalCount}}</td>
+                    </tr>
+                    <td>Average Ranking :</td>
+                    <td>
+                      <div>
+                        <div class="pull-left">
+                          <average-star-rating ng-model="information.averageRanking" max="5">
+                            <average-star-rating>
+                        </div>
+                        <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                      </div>
+                    </td>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          
+          </div>
+        
+        </div>
+        
+      </div> 
+    </div> 
+  </ul> 
+    <!--  originial code for data in bookmarks
+    <div class="col-md-4"
+         dir-paginate="information in bookmarksDashboards | filter : filterData | filter : filterByCriteria | orderBy: sortedData | itemsPerPage: 10">
+      <div class="panel panel-default">
+           
+        <div class="panel-body" style="border-top: 2px solid green;">
+
+          <table style="width: 100%" cellspacing="1" cellpadding="1">
+            <tr>
+              <td colspan="2">
+                <table style="width: 100%">
+                  <tr>
+                    <td><a
+                      ui-sref="app.dashboardInfo({system: '{{information.system}}', application :'{{information.application}}',subjectArea:'{{information.dashboardGroupName}}',dashboard:'{{information.dashboard}}'})"
+                      style="font-size: x-small;font-weight: 20px;"><span class="panel-title custom-font"
+                                                                          title="{{information.dashboard}}"
+                                                                          ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</span>
+                      <span class="panel-title custom-font" title="{{information.dashboard}}"
+                            ng-if="information.dashboard.length<=30">{{information.dashboard}}</span></a></td>
+                    <td align="right"><a href ng-click="bookMarkIt('{{information.id}}','dashboard')"><i
+                      class="fa fa-bookmark"></i></a></td>
+                  </tr>
+                </table>
+              </td>
+
+            </tr>
+            <tr>
+              <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                       width="50px" height="50px" style="border: 1px solid #A5A5A5; border-radius:6px;"/></td>
+              <td>
+                <table style="width: 100%">
+
+                  <!-- <tr>
+                <td>Owner :</td>
+                 <td><span ng-if="information.owner!='NA' && information.owner.length>13">{{information.owner.substring(0,13)+"..."}}</span><span ng-if="information.owner!='NA' && information.owner.length<=13">{{information.owner.substring(0,13)+"..."}}</span></td>
+                </tr> --> <!-- 
+                  <tr>
+                    <td>Application Name :</td>
+                    <td>{{information.application}}</td>
+                  </tr>
+                  <tr>
+                    <td>Usage Count :</td>
+                    <td>{{information.totalCount}}</td>
+                  </tr>
+                  <tr>
+                    <td>Average Ranking :</td>
+                    <td>
+                      <div ng-init="rating = information.averageRanking" class="mb-10" style="pointer-events:none;">
+                        <rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"
+                                state-off="'fa fa-star-o text-lg'"></rating>
+                        ({{information.totalUsers}})
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+          </table>
+
+        </div>
+
+      </div>
+    </div>     --> 
+  
+  <ul ng-show="layout=='list'" class="list">
+   <!--  <table cellspacing="0" cellpadding="0" style="width:100%;">
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="0" style="width:90%;">
+            <th>Bookmarks</th>
+            <th>Edit</th>
+            <th>Application Name</th>
+            <th>System</th>
+            <th>Dashboard Group</th>
+            <th>Usage Count</th>
+            <th>Average Ranking</th>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <div style="height:400px;overflow:auto;">
+          <table cellspacing="1" cellpadding="1" border="0" style="width:90%;">
+             <tr ng-repeat="information in bookmarksDashboards | filter : filterData | filter : filterByCriteria | orderBy: sortedData">
+               <td> <a
+                        ui-sref="app.dashboardInfo({system: '{{information.system}}', application :'{{information.application}}',subjectArea:'{{information.dashboardGroupName}}',dashboard:'{{information.dashboard}}'})"
+                        style="font-size: x-small;font-weight: 20px;"><span class="panel-title custom-font"
+                                                                            title="{{information.dashboard}}"
+                                                                            ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</span>
+                        <span class="panel-title custom-font" title="{{information.dashboard}}"
+                              ng-if="information.dashboard.length<=30" style="width=100px;">{{information.dashboard}}</span></a>
+                    
+               </td>
+               <td><a href ng-click="bookMarkIt('{{information.id}}','dashboard')"><i
+                        class="fa fa-bookmark"></i></a></td>
+               <td>{{information.application}}</td>
+               <td>{{information.system}}</td>
+               <td>{{information.dashboardGroupName}}</td>
+               <td>{{information.totalCount}}</td>
+               <td> <div ng-init="rating = information.averageRanking" class="mb-10" style="pointer-events:none;">
+                        <rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"
+                                state-off="'fa fa-star-o text-lg'"></rating>
+                        ({{information.totalUsers}})
+                    </div>
+               </td>
+             </tr>
+           </table>
+         </div> 
+        </td>
+      </tr>
+    </table> -->
+    
+  <table  style="width:1200px; display:flex; height:500px; flex-direction:column; border-collapse:separate; border-spacing:30px; padding:10px 10px 10px 10px;">
+      <thead >
+        <tr>
+          <th style="width:250px;">Bookmarks</th>
+          <th style="width:75px;">Edit</th>
+          <th style="width:400px;">System/Application/DashboardGroup</th>
+          <th style="width:150px;">Usage Count</th>
+          <th style="width:100px;">Created On</th>
+          <th style="width:150px;">Average Ranking</th>
+        </tr>
+      </thead>
+      <tbody style="flex:1;overflow:auto;">
+        <tr ng-repeat="information in bookmarksDashboards | filter : filterData | filter : filterByCriteria | orderBy: sortedData">
+          <td style="width:250px;"> <a
+                      ui-sref="app.dashboardInfo({system: '{{information.system}}', application :'{{information.application}}',subjectArea:'{{information.dashboardGroupName}}',dashboard:'{{information.dashboard}}'})"
+                      style="font-size: x-small;font-weight: 20px;"><span class="panel-title custom-font"
+                                                                          title="{{information.dashboard}}"
+                                                                          ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</span>
+                      <span class="panel-title custom-font" title="{{information.dashboard}}"
+                            ng-if="information.dashboard.length<=30">{{information.dashboard}}</span></a>
+                    
+          </td>
+          <td style="width:75px;"><a href ng-click="bookMarkIt('{{information.id}}','dashboard')"><i
+                      class="fa fa-bookmark"></i></a></td>
+          <td style="width:400px;">{{information.system}}/{{information.application}}/{{information.dashboardGroupName}}</td>
+          <td style="width:150px;">{{information.totalCount}}</td>
+          <td style="width:100px;">{{information.createdDate | date}}</td>
+          <td style="width:150px;"> <div ng-init="rating = information.averageRanking" class="mb-10" style="pointer-events:none;">
+                        <rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"
+                                state-off="'fa fa-star-o text-lg'"></rating>
+                        ({{information.totalUsers}})
+               </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>  
+  </ul>
+</div>

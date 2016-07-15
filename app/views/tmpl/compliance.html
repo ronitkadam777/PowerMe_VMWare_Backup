@@ -1,0 +1,53 @@
+<div class="page page-dashboard">
+  <div class="container-fluid bg-white">
+    <div class="row" style="margin-bottom: 20px">
+      <div class="col-xs-1" style="margin-top:13px">
+        <fa name="gavel" class="fa-4x"></fa>
+      </div>
+      <div class="col-xs-11">
+        <h1>Compliance Report</h1>
+      </div>
+      </br>
+    </div>
+    <div class="row ">
+      <div class="col-xs-6 text-right">
+        <div id="reportrange" class="page-toolbar btn btn-lightred no-border">
+          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i> <span></span>
+          <b class="caret"></b>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-primary" ng-click="refreshReport()">Render <i class="fa fa-line-chart"></i></button>
+      </div>
+    </div>
+    <br/>
+    <div class="row">
+      <div class="col-md-6 " ng-repeat="tab in tables">
+        <section
+          class="tile">
+          <div class="tile-header bg-greensea dvd dvd-btm">
+            <h1 class="custom-font">
+              {{ tab.title }}
+            </h1>
+          </div>
+          <div class="tile-widget">
+            <div class="table-responsive">
+              <table ng-table="tab.tableParams" class="table table-striped">
+                <colgroup>
+                  <col width="50%"/>
+                  <col width="25%"/>
+                  <col width="25%"/>
+                </colgroup>
+                <tr ng-repeat="rec in $data">
+                  <td data-title="'Dashboard'" sortable="'dashboard_id'">{{ rec.dashboard_id }}</td>
+                  <td data-title="'Accessed On'" sortable="'accessed_on'">{{ rec.accessed_on | date}}</td>
+                  <td data-title="'Accessed By'" sortable="'accessed_by'">{{ rec.accessed_by }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

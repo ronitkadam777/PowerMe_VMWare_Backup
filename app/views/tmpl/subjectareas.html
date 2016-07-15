@@ -1,0 +1,242 @@
+<!-- HTML Code for Dashboard Group Page -->
+
+<div class="page page-dashboard">
+
+   <div class="row text-center">
+    <div class="col-xs-12">
+      <span ng-click="changeSort('dashboard')"
+            style="cursor: pointer; padding-left: 15px">Dashboard Name <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'dashboard'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom" ng-class="{'text-success': sortedData === '-dashboard'}"></i></span>
+      <span ng-click="changeSort('averageRanking')"
+            style="cursor: pointer; padding-left: 15px">Average Ranking <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'averageRanking'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-averageRanking'}"></i></span>
+      <span ng-click="changeSort('totalCount')"
+            style="cursor: pointer; padding-left: 15px">Usage Count <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'totalCount'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-totalCount'}"></i></span>
+    </div>
+  </div>
+  <br/>
+
+  <div ng-if="currentUser.role === 'CONSUMER'">
+
+    <div class="col-md-12" style="border-right: 1px solid #cccccc;background-color: white;">
+      <div class="row">
+        <div class="col-sm-1">
+          <img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"/>
+        </div>
+        <div class="col-xs-9" style="padding-left: 75px;padding-top: 18px; font-size: 20px;">
+
+          {{page.title}}
+
+        </div>
+      </div>
+
+      <hr/>
+     
+      <div class="row">
+
+        <div class="col-md-4" ng-repeat="information in dashboards | orderBy : sortedData">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a
+                ui-sref="app.dashboardInfo({system: params.system, application: params.application, subjectArea: params.subjectarea, dashboard: information.dashboard})">
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</h3>
+
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length<=30">{{information.dashboard}}</h3></a>
+            </div>
+            <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td><img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                           width="50px" height="50px"/></td>
+                  <td>
+                    <table style="width: 100%">
+
+                      <!-- <tr>
+                    <td>Owner :</td>
+                     <td><span ng-if="information.owner!='NA' && information.owner.length>13">{{information.owner.substring(0,13)+"..."}}</span><span ng-if="information.owner!='NA' && information.owner.length<=13">{{information.owner.substring(0,13)+"..."}}</span></td>
+                    </tr> -->
+                      <tr>
+                        <td>Application Name :</td>
+                        <td>{{information.application}}</td>
+                      </tr>
+                      <tr>
+                        <td>Usage Count :</td>
+                        <td>{{information.totalCount}}</td>
+                      </tr>
+                      <tr>
+                        <td>Average Ranking :</td>
+                        <td>
+                          <div>
+                            <div class="pull-left">
+                              <average-star-rating ng-model="information.averageRanking" max="5">
+                                <average-star-rating>
+                            </div>
+                            <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                          </div>
+                          <!--<div ng-init="rating = information.averageRanking" class="mb-10" style="pointer-events:none;">-->
+                            <!--<rating ng-model="rating" max="5" state-on="'fa fa-star text-orange text-lg'"-->
+                                    <!--state-off="'fa fa-star-o text-lg'"></rating>-->
+                            <!--({{information.totalUsers}})-->
+                          <!--</div>-->
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  
+  <div ng-if="currentUser.role !== 'CONSUMER'">
+
+    <div class="col-md-12">
+      <div class="col-md-8" style="border-right: 1px solid #cccccc;background-color: white;">
+      <div class="row">
+        <div class="col-sm-1">
+          <img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"/>
+        </div>
+        <div class="col-xs-9" style="padding-left: 75px;padding-top: 18px; font-size: 20px;">
+
+          {{page.title}} 
+
+        </div>
+      </div>
+        <div class="row">
+
+        <div class="col-md-6" ng-repeat="information in dashboards | orderBy : sortedData">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a
+                ui-sref="app.dashboardInfo({system: params.system, application: params.application, subjectArea: params.subjectarea, dashboard: information.dashboard})">
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</h3>
+
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length<=30">{{information.dashboard}}</h3></a>
+            </div>
+            <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td><img ng-src="{{params.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                           width="50px" height="50px"/></td>
+                  <td>
+                    <table style="width: 100%">
+
+                      <!-- <tr>
+                    <td>Owner :</td>
+                     <td><span ng-if="information.owner!='NA' && information.owner.length>13">{{information.owner.substring(0,13)+"..."}}</span><span ng-if="information.owner!='NA' && information.owner.length<=13">{{information.owner.substring(0,13)+"..."}}</span></td>
+                    </tr> -->
+                      <tr>
+                        <td>Application Name :</td>
+                        <td>{{information.application}}</td>
+                      </tr>
+                      <tr>
+                        <td>Usage Count :</td>
+                        <td>{{information.totalCount}}</td>
+                      </tr>
+                      <tr>
+                        <td>Average Ranking :</td>
+                        <td>
+                          <div>
+                            <div class="pull-left">
+                              <average-star-rating ng-model="information.averageRanking" max="5">
+                                <average-star-rating>
+                            </div>
+                            <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      </div>
+      
+      <div class="col-md-4">
+      <div class="row">
+      <div class="col-md-12">
+        
+          <div
+            class="tile-widget bg-greensea"
+            ng-controller="subjectareasCtrl">
+
+            <div id="DashboardGroupChart"></div>
+
+          </div>
+        
+      	</div>
+    	</div>
+    	<div class="row">
+    		<div class="col-md-12">
+    		    <div>
+        <section class="tile tile-simple">
+
+          <!-- tile header -->
+          <div class="tile-header">
+            <h1 class="custom-font"><strong>Frequent</strong> Users</h1>
+
+            <div class="pull-right mt-10">
+              <i class="fa fa-users fa-2x"></i>
+            </div>
+
+          </div>
+          <!-- /tile header -->
+
+          <!-- tile body -->
+          <div class="tile-body">
+
+            <div class="media " ng-repeat="info in FrequentUserNames">
+              <div class="pull-left thumb">
+                <img class="media-object img-circle" src="images/gray.jpg" alt="">
+              </div>
+              <div class="pull-right mt-10">
+
+                <button type="button" class="btn btn-rounded-20 btn-default btn-sm" style="width:30px;"><i
+                  class="fa fa-eye" style="margin-left: -2px;"></i></button>
+              </div>
+              <div class="media-body">
+                <p class="media-heading mb-0 mt-10"><strong>{{info}}</strong> <span class="badge">{{ FrequentUserUsageCount[$index] }}</span>
+                </p>
+                
+              </div>
+              <hr/>
+            </div>
+
+
+          </div>
+          <!-- /tile body -->
+
+        </section>
+
+      </div>
+    		</div>
+    	</div>
+      </div>
+      <hr/>
+     
+    
+    </div>
+  </div>
+</div>

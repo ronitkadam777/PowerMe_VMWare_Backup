@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        	<div class="col-md-8">
+            <br>
+		    <span style="font-size:24px;"><b>Login Logs for </b>{{username}}</span>
+                <a class="btn" ng-csv="userLoginLogs_csv" filename="{{fileName}}" charset="windows-1251" lazy-load="true">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export csv
+                </a>
+                
+                <a ui-sref="app.usageProfiling"><button class="btn btn-success"> Back</button></a>
+			<div class="table-responsive">
+            <table ng-table="options.userlogTableParams" class="table table-striped" export-csv="csv5" separator=",">
+          <colgroup>
+            <col width="50%">
+          </colgroup>
+					<tr width="100">
+                        <td data-title="" width="100"><strong>Timestamp</strong></td>
+                    </tr>
+                    <tr ng-repeat="tag in $data">
+						<td>
+							<span>{{tag.key_as_string}}</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+    </div>
+</div>

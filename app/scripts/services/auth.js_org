@@ -1,0 +1,54 @@
+/**
+ * Created by tapathan on 11/29/2015.
+ */
+'user strict';
+
+angular.module('powermeApp')
+  .factory('Auth',
+           ['$q', '$http', '$rootScope', '$cookieStore', '$window',
+            function ($q, $http, $rootScope, $cookieStore, $window) {
+              var _def_auth = $q.defer();
+
+              $rootScope.currentUser = $cookieStore.get('currentUser');
+
+              if (angular.isUndefined($rootScope.currentUser)) {
+                $window.location.href = environment.vidmURI;
+              }
+
+              $rootScope.currentUser.fullname = $rootScope.currentUser.username;
+
+              $http.get(environment.apiUri + '/powerme/user/' + $rootScope.currentUser.username)
+                .success(function (user) {
+                  $rootScope.currentUser.role = angular.isArray(user._source.roles) ? user._source.roles[0] :
+                    user._source.roles;
+                  $rootScope.currentUser.add_desc = user._source.add_desc;
+                  $rootScope.currentUser.remove_desc = user._source.remove_desc;
+                })
+                .error(function (error) {
+                  if (!error.found) {
+                    $http.post(environment.apiUri + '/powerme/user', {
+                      user_name: $rootScope.currentUser.username,
+                      roles: 'CONSUMER',
+                      add_desc: false,
+                      remove_desc: false
+                    }).success(function (data) {
+                      console.log('Result for user post : ', data);
+                    }).error(function (error) {
+                      console.log('Error while user persona : ', error);
+                    });
+                  }
+                  $rootScope.currentUser.role = 'CONSUMER';
+                  $rootScope.currentUser.add_desc = false;
+                  $rootScope.currentUser.remove_desc = false;
+                })
+                .finally(function () {
+                  $cookieStore.put('currentUser', $rootScope.currentUser);
+                  _def_auth.resolve($rootScope.currentUser);
+                });
+
+              return {
+                currentUser: function () {
+                  return _def_auth.promise;
+                }
+              }
+            }]);

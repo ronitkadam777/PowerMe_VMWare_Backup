@@ -1,0 +1,7 @@
+{
+    "ssl": {
+        "pfx": "ssl/qa/montage.qa.ebay.com.pfx",
+        "passphrase": "{eYl2=X8",
+        "key": "ssl/qa/privkey.pem"
+    }
+}

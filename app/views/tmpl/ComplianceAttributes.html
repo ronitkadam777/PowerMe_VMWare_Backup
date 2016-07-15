@@ -1,0 +1,137 @@
+
+<div class="container" ng-cloak>
+    <br>
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-on="spinnerOn"></span>
+    <div class="row" style="text-align: center">
+    <div class="col-xs-12 checkbox-inline">
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="complianceType" value="keyasset" ui-sref="app.ComplianceKeyAssets">
+			<i></i> Key Assets
+		</label> <label
+			class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+			<input type="radio" ng-model="complianceType" value="attribute">
+			<i></i> Attributes
+		</label>
+	</div>
+    </div>
+    <br>
+    <br>
+    <div class="row" style="text-align:left">
+        <div class="col-md-7 col-md-push-3">
+        <div class="col-md-3">
+	       <div style="margin-top: 6px;">Attributes: </div>
+        </div>
+        <div class="col-md-4" style="margin-left: -80px;">
+        	     <div
+				        isteven-multi-select
+                        input-model=attributes
+                        output-model=selectedAttributes
+                        button-label="name"
+                        item-label="name"
+                        tick-property="ticked"
+                        max-labels="1"
+				></div>
+        </div>	
+        <div class="col-md-3">
+            <div class="btn btn-primary" ng-click="selectedAttributesClose()" style="margin-left: 0px;">Render <i class="fa fa-bar-chart" aria-hidden="true"></i></div>
+		</div>
+        <div class="col-md-3" style="margin-left: 0px;">
+            <div class="btn btn-primary" ng-disabled>TimeLine <i class="fa fa-calendar" aria-hidden="true"></i></div>
+		</div>
+        </div>
+        
+    </div>
+   
+    <div class="row" style="margin-top: 20px">
+	<div class="col-md-12">
+		<div id="ComplianceAttributesChart"></div>
+	</div>
+    <br>
+    <br>
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+        <span style="font-size:18px;">Vendor Compliance Issues</span>
+        <br>
+        <br>
+             <div class="col-md-6">
+                <input class="form-control" placeholder="Enter filter criteria.." ng-model="filterInputVendor"></input>
+            </div>
+            <div class="col-md-6">
+                    <a class="btn btn-default" title="Export Table" ng-click='csv_vendor.generate()' ng-href="{{ csv_vendor.link() }}" download="AttributeVendorCompliances.csv">Export</a>
+            </div>
+        <br>
+        <br>
+        
+        <table class="table table-striped" ng-show="ComplianceTable_Attributes.length > 0" export-csv="csv_vendor" separator=",">
+              <tr>
+                        <td> 
+                            <b>User </b>
+                            <span class="fa fa-caret-down" ng-click="sortType = 'user_name'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = 'user_name'; sortReverse = false"></span>
+                        </td>
+                        <td> 
+                            <b>Date</b>
+                            <span class="fa fa-caret-down" ng-click="sortType = 'date'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = 'date'; sortReverse = false"></span>
+                        </td>
+                        <td> 
+                            <b>Dashboard</b>
+                            <span class="fa fa-caret-down" ng-click="sortType = 'dashboard_name'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = 'dashboard_name'; sortReverse = false"></span>
+                        </td>
+                        <td> 
+                            <b>Appl</b>
+                            <span class="fa fa-caret-down" ng-click="sortType = 'application_Name'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = 'application_Name'; sortReverse = false"></span>
+                        </td>
+                        <td> 
+                            <b>Count</b>
+                            <span class="fa fa-caret-down" ng-click="sortType = 'count'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = 'count'; sortReverse = false"></span>
+                        </td>
+                    </tr>
+            <tr ng-repeat="item in ComplianceTable_Attributes | filter:filterInputVendor | orderBy:sortType:sortReverse" ng-if="item.type === 'vendor'" >
+                <td>{{item.user_name}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.dashboard_name}}</td>
+                <td>{{item.application_Name}}</td>
+                <td>{{item.count}}</td>
+            </tr>
+        </table>    
+    </div>
+    
+     <div class="col-md-6">
+         <span style="font-size:18px;">Leave Compliance Issues</span>
+         <br>
+         <br>
+         <div class="col-md-6">
+                <input class="form-control" placeholder="Enter filter criteria.." ng-model="filterInputFTE"></input>
+            </div>
+            <div class="col-md-6">
+                    <a class="btn btn-default" title="Export Table" ng-click='csv_fte.generate()' ng-href="{{ csv_fte.link() }}" download="AttributeFTECompliances.csv">Export</a>
+            </div>
+        <br>
+        <br>
+        
+        <table class="table table-striped" ng-show="ComplianceTable_Attributes.length > 0" export-csv="csv_fte" separator=",">
+            <tr><th>User</th><th>Date</th><th>Dashboard</th><th>Application</th><th>Count</th></tr>
+            <tr ng-repeat="item in ComplianceTable_Attributes | filter:filterInputFTE | orderBy:sortType:sortReverse" ng-if="item.type === 'fte'" >
+                <td>{{item.user_name}}</td>
+                <td>{{item.date}}</td>
+                <td>{{item.dashboard_name}}</td>
+                <td>{{item.application_Name}}</td>
+                <td>{{item.count}}</td>
+            </tr>
+        </table>    
+    </div>
+    </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+</div>

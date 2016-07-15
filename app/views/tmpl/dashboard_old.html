@@ -1,0 +1,464 @@
+<head>
+    <style>
+    
+    </style>
+</head>
+<body>
+<div class="page page-dashboard">
+
+
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+  <div
+    class="row"
+    style="text-align: left">
+    <div class="col-xs-12 col-md-12 checkbox-inline">
+
+      <strong>Filter By:</strong>&nbsp;
+      <label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+        <input
+          name="customRadioAlt"
+          type="radio"
+          value="System"
+          ng-model="options.filterCriteria"
+          ng-click="getFilterTypes()">
+        <i></i> System
+      </label>
+      <label
+        class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+
+        <input
+          name="customRadioAlt"
+          type="radio"
+          value="Departments"
+          ng-model="options.filterCriteria"
+          ng-click="getFilterTypes()">
+        <i></i> Applications
+      </label>
+      
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Filter
+        By:</strong>&nbsp;
+      <div
+        id="reportrange"
+        class="page-toolbar btn btn-lightred no-border"
+        ng-controller="DaterangepickerCtrl">
+        <i class="fa fa-calendar"></i> 
+        <b class="caret"></b>
+      </div>
+        
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Dashboard Groups:</strong>&nbsp;
+      <div class="btn btn-lightred no-border"><span>{{SubjectAreaCount}}</span> </div>
+        
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Applications:</strong>&nbsp;
+      <div class="page-toolbar btn btn-lightred no-border"><span>{{applicationCount}}</span> </div>
+        
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Dashboards:</strong>&nbsp;
+      <div class="page-toolbar btn btn-lightred no-border"><span>{{dashboardCount}}</span> </div>
+        
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Reports:</strong>&nbsp;
+      <div class="page-toolbar btn btn-lightred no-border"><span>{{reportCount}}</span> </div>
+    
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->
+
+ <div class="row" style="text-align: left">
+		<div class="col-xs-12 col-md-8 checkbox-inline">
+			<label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"
+				ng-repeat="k in filterInfo track by $index"
+				ng-if="options.filterCriteria==='Departments'"> <input
+				name="departmentInline" type="checkbox" ng-model="graphCriteria[k]"
+				ng-click="getContent(graphCriteria)" value="{{k}}"><i></i> {{k}}
+
+			</label> <label class="checkbox-inline checkbox-custom checkbox-custom-lg"
+				ng-repeat="k in filterInfo track by $index"
+				ng-if="options.filterCriteria==='System'"> <input
+				name="departmentInline" type="radio" ng-model="options.systemCriteria"
+				ng-click="getContent(options.systemCriteria)" value="{{k}}"><i></i> {{k}}
+			</label>
+		</div>
+
+	</div>
+	<br />
+   
+ <!--  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->
+  <!-- row -->
+  <div class="row">
+    <!-- CHART 1 -->
+    <div class="col-md-4" ng-show=chart1_visible>
+
+      <!-- tile -->
+      <section
+        class="tile"
+        fullscreen="isFullscreen01">
+
+        <!-- tile header -->
+        <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font">
+            <strong>Top Dashboards </strong>Usage Hits
+          </h1>
+
+          <ul class="controls">
+            <li
+              class="dropdown"
+              dropdown
+              on-toggle="toggled(open)"><a
+                href
+                dropdown-toggle
+                class="dropdown-toggle settings">
+                <i class="fa fa-cog"></i>
+              </a>
+
+              <ul
+                class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li><a
+                    href
+                    tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a></li>
+                <li><a
+                    href
+                    tile-control-refresh
+                    ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa>
+                    Refresh
+                  </a></li>
+                <li><a
+                    href
+                    tile-control-fullscreen
+                    ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa>
+                    Fullscreen
+                  </a></li>
+              </ul></li>
+            <li class="remove"><a href ng-click="chart1_visible = false">
+                <i class="fa fa-times"></i>
+              </a></li>
+          </ul>
+        </div>
+        <!-- /tile header -->
+
+        <!-- tile widget -->
+        <div class="bg-slategray" ng-controller="Chart1_Ctrl" style="border-bottom: 5px solid slategray;">
+
+          <div id="Chart1"></div>
+
+        </div>
+      </section>
+     
+    </div>
+   <!-- CHART 2 -->
+    <div class="col-md-4" ng-show=chart2_visible>
+      <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font"><strong>Top Dashboards </strong>Unique Users</h1>
+          <ul class="controls">
+            
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+
+              <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+              <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li>
+                  <a href tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-refresh ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa> Refresh
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa> Fullscreen
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="remove"><a href ng-click="chart2_visible = false"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+        <div class="bg-slategray" style="border-bottom: 5px solid slategray;" ng-controller="Chart2_Ctrl">
+    
+
+          <div id="Chart2" ></div>
+
+        </div>
+     </section>
+    </div>
+   <!-- CHART 3 -->
+    <div class="col-md-4" ng-show="options.filterCriteria !== 'Departments' && chart3_visible">
+     <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font"><strong>Daily Usage </strong>Dashboard Access</h1>
+          <ul class="controls">
+            
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+
+              <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+              <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li>
+                  <a href tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-refresh ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa> Refresh
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa> Fullscreen
+                  </a>
+                </li>
+
+              </ul>
+
+            </li>
+            <li class="remove"><a href ng-click="chart3_visible = false"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+        <div class="bg-slategray" style="border-bottom: 5px solid slategray "ng-controller="Chart3_Ctrl">
+
+          <div id="Chart3" ></div>
+
+        </div>
+     </section>
+    </div> 
+   <!-- CHART 4 -->
+    <div class="col-md-4" ng-show="options.filterCriteria !== 'Departments' && chart4_visible">
+     <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font"><strong>Daily Usage </strong>Dashboard Hits</h1>
+          <ul class="controls">
+            
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+
+              <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+              <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li>
+                  <a href tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-refresh ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa> Refresh
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa> Fullscreen
+                  </a>
+                </li>
+
+              </ul>
+
+            </li>
+            <li class="remove"><a href ng-click="chart4_visible = false"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+         <div class="bg-slategray" style="border-bottom: 5px solid slategray;" ng-controller="Chart4_Ctrl">
+             <div id="Chart4" ></div>
+         </div>
+     </section>
+    </div>
+   <!-- CHART 5 -->
+    <div class="col-md-4" ng-show=chart5_visible>
+     <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font"><strong>Top Users</strong> Usage Hits</h1>
+          <ul class="controls">
+            
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+
+              <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+              <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li>
+                  <a href tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-refresh ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa> Refresh
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa> Fullscreen
+                  </a>
+                </li>
+
+              </ul>
+
+            </li>
+            <li class="remove"><a href ng-click="chart5_visible = false"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+        <div class="bg-slategray" style="border-bottom: 5px solid slategray;" ng-controller="Chart5_Ctrl">
+            <div id="Chart5" ></div>
+         </div>
+     </section>
+    </div>
+    <!-- CHART 6 --> 
+    <div class="col-md-4" ng-show="options.filterCriteria !== 'Departments' && chart6_visible">
+     <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font"><strong>Application-wise</strong> Assets</h1>
+          <ul class="controls">
+            
+            <li class="dropdown" dropdown on-toggle="toggled(open)">
+
+              <a href dropdown-toggle class="dropdown-toggle settings"><i class="fa fa-cog"></i></a>
+
+              <ul class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                <li>
+                  <a href tile-control-toggle>
+                    <span class="minimize"><fa name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                    <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-refresh ng-click="ajaxFaker()">
+                    <fa name="refresh"></fa> Refresh
+                  </a>
+                </li>
+                <li>
+                  <a href tile-control-fullscreen ng-click="isFullscreen01 = !isFullscreen01">
+                    <fa name="expand"></fa> Fullscreen
+                  </a>
+                </li>
+
+              </ul>
+
+            </li>
+            <li class="remove"><a href ng-click="chart6_visible = false"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+         <div class="bg-slategray" style="border-bottom: 5px solid slategray;" ng-controller="Chart6_Ctrl">
+             <div id="Chart6" ></div>
+         </div>
+     </section>
+    </div>
+    <!-- CHART 10-->
+    <div class="col-md-12" ng-show="options.filterCriteria !== 'Departments' && chart9_visible">
+    <section class="tile" fullscreen="isFullscreen01">
+       <div class="tile-header bg-slategray dvd dvd-btm">
+          <h1 class="custom-font col-md-4">
+              <strong>Application Comparitive </strong>Statistics
+            </h1>
+            
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="col-md-4">
+            	
+				<input type="radio" name="ChartSelector" value="ChartSelector_DashboardHits" ng-model="options.ChartSelector" ng-click="getChartSelector()"> Dashboard Hits
+				<input type="radio" name="ChartSelector" value="ChartSelector_UserCount" ng-model="options.ChartSelector" ng-click="getChartSelector()"> User Count
+                <input type="radio" name="ChartSelector" value="ChartSelector_Both" ng-model="options.ChartSelector" ng-click="getChartSelector()"> Both
+					            	
+            	
+            </div>
+                
+            <ul class="controls">
+              <li
+                class="dropdown"
+                dropdown
+                on-toggle="toggled(open)"><a
+                  href
+                  dropdown-toggle
+                  class="dropdown-toggle settings">
+                  <i class="fa fa-cog"></i>
+                </a>
+				<ul
+                  class="dropdown-menu pull-right with-arrow animated littleFadeInUp">
+                  <li><a
+                      href
+                      tile-control-toggle>
+                      <span class="minimize"><fa
+                          name="angle-down"></fa>&nbsp;&nbsp;&nbsp;Minimize</span>
+                      <span class="expand"><fa name="angle-up"></fa>&nbsp;&nbsp;&nbsp;Expand</span>
+                    </a></li>
+                  <li><a
+                      href
+                      tile-control-refresh
+                      ng-click="ajaxFaker()">
+                      <fa name="refresh"></fa>
+                      Refresh
+                    </a></li>
+                  <li><a
+                      href
+                      tile-control-fullscreen
+                      ng-click="isFullscreen02 = !isFullscreen02">
+                      <fa name="expand"></fa>
+                      Fullscreen
+                    </a></li>
+                    
+                    
+                    
+                   
+                </ul></li>
+              <li class="remove"><a
+                  href
+                  >
+                  <i class="fa fa-times"></i>
+                </a></li>
+            </ul>
+          </div>
+           <div class="bg-slategray" style="border-bottom: 5px solid slategray;" ng-controller="Chart10_Ctrl">
+             <div id="Chart10" ></div>
+         </div>
+        </section>
+      </div>
+    </div>
+      
+  </div>
+
+<div class="modal fade" id="loginModal" role="dialog" tabindex="-1" data-backdrop="false">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <br>
+          <h4 class="modal-title">Select / Unselect Dashboard Charts</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart1_visible" value="Test"><i></i> Top Dashboard (Usage Hits)
+			</label><br><br>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart2_visible"><i></i> Unique Usage Statistics Chart
+			</label><br><br>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart3_visible" value="Test"><i></i> Dashboard Access Chart
+			</label><br><br>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart4_visible" value="Test"><i></i> Daily Dashboard Usage Chart
+			</label><br><br>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart5_visible" value="Test"><i></i> Usage Statistics Chart
+			</label><br><br>
+            <label class="checkbox-inline checkbox-custom-alt checkbox-custom-lg"> <input name="chartSelector" type="checkbox" ng-model="chart6_visible" value="Test"><i></i> Application Breakdown Chart
+			</label><br>
+            
+            
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</body>

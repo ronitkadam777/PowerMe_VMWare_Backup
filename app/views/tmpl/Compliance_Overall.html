@@ -1,0 +1,83 @@
+<div class="container" ng-cloak>
+    <br>
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-on="spinnerOn"></span>
+    <div class="row" style="text-align: center">
+    <div class="col-xs-12 checkbox-inline">
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="complianceType" value="overall">
+			<i></i> Overall
+		</label>
+		<label class="checkbox-inline checkbox-custom checkbox-custom-lg ">
+			<input type="radio" ng-model="complianceType" value="keyasset" ui-sref="app.ComplianceStatistics">
+			<i></i> Key Assets
+		</label> <label
+			class="checkbox-inline checkbox-inline checkbox-custom checkbox-custom-lg">
+			<input type="radio" ng-model="complianceType" value="attribute" ui-sref="app.ComplianceAttributes">
+			<i></i> Attributes
+		</label>
+	</div>
+    </div>
+        <br>
+        <!--
+        <span>Overall Compliances</span> / 
+        <a class="btn" ui-sref="app.ComplianceStatistics">Key Asset Compliances</a> / 
+        <a class="btn" ui-sref="app.ComplianceAttributes">Attribute Compliances</a>-->
+        <br>
+            <div id="ComplianceOverallChart"></div>
+        <br>
+            <div class="col-md-6">
+                <span style="font-size:18px;">Vendor Compliance Issues</span>
+                <br><br>
+                <div class="col-md-6">
+                    <input class="form-control" placeholder="Enter filter criteria.." ng-model="filterInputVendor"></input>
+                </div>
+                <div class="col-md-6">
+                    <a class="btn btn-default" title="Export Table" ng-click='csv_vendor.generate()' ng-href="{{ csv_vendor.link() }}"
+                    download="VendorCompliances.csv">Export</a>
+                </div>
+                <br><br>
+                <table class="table table-striped" export-csv="csv_vendor" separator=",">
+                    <tr>
+                        <td> 
+                            <a href="#" ng-click="sortType = '_source.user_name'; sortReverse = !sortReverse"> <b>User Name</b></a>
+                            <span class="fa fa-caret-down" ng-click="sortType = '_source.user_name'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = '_source.user_name'; sortReverse = false"></span>
+                        </td>
+                        <td> 
+                            <a href="#" ng-click="sortType = '_source.date'; sortReverse = !sortReverse"><b>Date</b></a>
+                            <span class="fa fa-caret-down" ng-click="sortType = '_source.date'; sortReverse = true"></span>
+                            <span class="fa fa-caret-up" ng-click="sortType = '_source.date'; sortReverse = false"></span>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in complianceData | filter:filterInputVendor | orderBy:sortType:sortReverse" ng-if="item._source.is_vendor">
+                        <td>{{item._source.user_name}}</td>
+                        <td>{{item._source.date}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <span style="font-size:18px;">Leave Compliance Issues</span>
+                <br><br>
+                <div class="col-md-6">
+                    <input class="form-control" placeholder="Enter filter criteria.." ng-model="filterInputFTE"></input></div>
+                    <div class="col-md-6"><div class="btn btn-default">Export</div></div>
+                    <br><br>
+        
+                    <table class="table table-striped">
+                        <tr>    
+                            <td><b>User Name</b></td>
+                            <td><b>Date</b></td>
+                        </tr>
+                        <tr ng-repeat="item in complianceData | filter:filterInputFTE" ng-if="!item._source.is_vendor">
+                            <td>{{item._source.user_name}}</td>
+                            <td>{{item._source.date}}</td>
+                        </tr>   
+                    </table>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+    </div>

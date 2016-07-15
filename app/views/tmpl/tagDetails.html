@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h3 class="modal-title">Playbook Associations for {{ tag._source.tag_name }}</h3>
+</div>
+<div class="modal-body" style="max-height: 400px; overflow-y: auto">
+  <div class="panel panel-default" ng-if="tag._source.dashboards && tag._source.dashboards.length > 0">
+    <div class="panel-heading">Dashboards</div>
+    <div class="panel-body">
+      <table class="table table-striped table-bordered">
+        <colgroup>
+          <col width="100%">
+        </colgroup>
+        <tr>
+          <th>Dashboard Name</th>
+          <th>Added By</th>
+          <th>Added On</th>
+        </tr>
+        <tr ng-repeat="d in tag._source.dashboards">
+          <td>{{d.dashboard_name}}</td>
+          <td>{{d.tagged_by}}</td>
+          <td style="white-space: nowrap">{{d.tagged_on | date : 'dd-MMM-yyyy HH:mm:ss'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default" ng-if="tag._source.dashboard_page && tag._source.dashboard_page.length > 0">
+    <div class="panel-heading">Dashboard Pages</div>
+    <div class="panel-body">
+      <table class="table table-striped table-bordered">
+        <colgroup>
+          <col width="100%">
+        </colgroup>
+        <tr>
+          <th>Dashboard Page Name</th>
+          <th>Added By</th>
+          <th>Added On</th>
+        </tr>
+        <tr ng-repeat="d in tag._source.dashboard_page">
+          <td>{{d.dashboard_page_name}}</td>
+          <td>{{d.tagged_by}}</td>
+          <td style="white-space: nowrap">{{d.tagged_on | date : 'dd-MMM-yyyy HH:mm:ss'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-default" ng-if="tag._source.report && tag._source.report.length > 0">
+    <div class="panel-heading">Reports</div>
+    <div class="panel-body">
+      <table class="table table-striped table-bordered">
+        <colgroup>
+          <col width="100%">
+        </colgroup>
+        <tr>
+          <th>Report Name</th>
+          <th>Added By</th>
+          <th>Added On</th>
+        </tr>
+        <tr ng-repeat="d in tag._source.report">
+          <td>{{d.report_name}}</td>
+          <td>{{d.tagged_by}}</td>
+          <td style="white-space: nowrap">{{d.tagged_on | date : 'dd-MMM-yyyy HH:mm:ss'}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" type="button" ng-click="$close({delete: true})" ng-if="deleteEnabled">Remove 
+  </button>
+  <button class="btn btn-default" type="button" ng-click="$dismiss('Close')">Close</button>
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row page page-dashboard">
+        <br>
+        <span us-spinner="{radius:30, width:8, length: 16}" spinner-on="showSpinner"></span>
+        <span style="font-size:24px;">Descriptions Download  <i class="fa fa-download" aria-hidden="true"></i></span>
+        <br>
+        <br>
+        
+        
+        <div class="col-md-12">
+            <br>
+			<span style="font-size:18px;"><b><i class="fa fa-file-excel-o"></i>   Dashboard </b>Descriptions</span>
+                <a class="btn" ng-csv="dbDescriptions" filename="Dashboard_Descriptions.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export csv
+                </a>
+		</div>
+        
+        <div class="col-md-12">
+            <br>
+			<span style="font-size:18px;"><b><i class="fa fa-file-excel-o"></i>   Dashboard Page </b>Descriptions</span>
+                <a class="btn" ng-csv="pgDescriptions" filename="Page_Descriptions.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Export csv
+                </a>
+			
+		</div>
+        
+        
+        
+    </div>
+</div>

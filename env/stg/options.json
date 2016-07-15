@@ -1,0 +1,7 @@
+{
+    "ssl": {
+        "pfx": "ssl/local/montage.local.ebay.com.pfx",
+        "passphrase": ">%>^&$>6",
+        "key": "ssl/local/privkey.pem"
+    }
+}

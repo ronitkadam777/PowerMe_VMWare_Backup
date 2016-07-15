@@ -1,0 +1,200 @@
+<div class="page page-dashboard">
+
+
+
+  <div class="row text-center">
+    <div class="col-xs-12">
+      <span ng-click="changeSort(sortedData === 'dashboard' ? '-dashboard' : 'dashboard')"
+            style="cursor: pointer; padding-left: 15px">Dashboard Name <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'dashboard'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom" ng-class="{'text-success': sortedData === '-dashboard'}"></i></span>
+      <span ng-click="changeSort(sortedData === 'averageRanking' ? '-averageRanking' : 'averageRanking')"
+            style="cursor: pointer; padding-left: 15px">Average Ranking <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'averageRanking'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-averageRanking'}"></i></span>
+      <span ng-click="changeSort(sortedData === 'totalCount' ? '-totalCount' : 'totalCount')"
+            style="cursor: pointer; padding-left: 15px">Usage Count <i
+        class="glyphicon glyphicon-triangle-top" ng-class="{'text-success': sortedData === 'totalCount'}"></i><i
+        class="glyphicon glyphicon-triangle-bottom"
+        ng-class="{'text-success': sortedData === '-totalCount'}"></i></span>
+    </div>
+  </div>
+  <br/>
+  <div>
+    <div class="col-md-12" style="border-right: 1px solid #cccccc;background-color: white;">
+      <div class="row">
+        <div class="col-sm-1">
+          <fa name="tag" style="font-size: 50px; position:absolute; top:10px; left:10px"></fa>
+          </div>
+        <div class="col-xs-9" style="padding-left: 75px;padding-top: 18px; font-size: 20px;">
+
+          {{tagSelected}}
+
+        </div>
+      </div>
+      
+<!-- TAGGED DASHBOARDS -->
+      <hr/>
+      <!-- 
+      <span class="row" style="font-size:20px">Dashboards:</span> -->
+      
+       <div class="row">
+        <div class="col-md-4" dir-paginate="information in tag_dashboard | orderBy : sortedData | itemsPerPage: 12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a
+                ui-sref="app.dashboardInfo({system: information.system, application: information.application, subjectArea: information.dashboardGroupName, dashboard: information.dashboard})">
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length>30">{{information.dashboard.substring(0,30)+"..."}}</h3>
+
+                <h3 class="panel-title custom-font" title="{{information.dashboard}}"
+                    ng-if="information.dashboard.length<=30">{{information.dashboard}}</h3></a>
+            </div>
+            
+            <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                           width="50px" height="50px"/></td>
+                  <td>
+                    <table style="width: 100%">
+
+                      <tr>
+                        <td>Application Name :</td>
+                        <td>{{information.application}}</td>
+                      </tr>
+                      <tr>
+                        <td>Usage Count :</td>
+                        <td>{{information.totalCount}}</td>
+                      </tr>
+                      <tr>
+                        <td>Average Ranking :</td>
+                        <td>
+                          <div>
+                            <div class="pull-left">
+                              <average-star-rating ng-model="information.averageRanking" max="5">
+                                <average-star-rating>
+                            </div>
+                            <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- TAGGED DASHBOARD PAGES -->
+      <span class="row" style="font-size:20px">Dashboard Pages:</span>
+      </hr>
+      <div class="row">
+        <div class="col-md-4" dir-paginate="information in tag_dashboardPg | orderBy : sortedData | itemsPerPage: 12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a
+                ui-sref="app.dashboardPageInfo({system: information.system, application: information.application, dashboardGroupName: information.dashboardGroupName, dashboard: information.dashboard, dashboardPageName: information.dashboardPageName})">
+                <h3 class="panel-title custom-font" title="{{information.dashboardPageName}}"
+                    ng-if="information.dashboard.length>30">{{information.dashboardPageName.substring(0,30)+"..."}}</h3>
+                <h3 class="panel-title custom-font" title="{{information.dashboardPageName}}"
+                    ng-if="information.dashboard.length<=30">{{information.dashboardPageName}}</h3></a>
+            </div>
+            
+            <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                           width="50px" height="50px"/></td>
+                  <td>
+                    <table style="width: 100%">
+                      <tr>
+                        <td>Application Name :</td>
+                        <td>{{information.application}}</td>
+                      </tr>
+                      <tr>
+                        <td>Usage Count :</td>
+                        <td>{{information.totalCount}}</td>
+                      </tr>
+                      <tr>
+                        <td>Average Ranking :</td>
+                        <td>
+                          <div>
+                            <div class="pull-left">
+                              <average-star-rating ng-model="information.averageRanking" max="5">
+                                <average-star-rating>
+                            </div>
+                            <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>  
+      </div>
+      <!-- TAGGED REPORTS -->
+      </hr>
+      <span class="row" style="font-size:20px">Reports:</span>
+      </hr>
+      <div class="row">
+        <div class="col-md-4" dir-paginate="information in tag_report | orderBy : sortedData | itemsPerPage: 12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a
+                ui-sref="app.reportDetail({system: information.system, application: information.application, dashboardGroupName: information.dashboardGroupName, dashboard: information.dashboard, dashboardPageName: information.dashboardPageName,reportName: information.reportName})">
+                <h3 class="panel-title custom-font" title="{{information.reportName}}"
+                    ng-if="information.dashboard.length>30">{{information.reportName.substring(0,30)+"..."}}</h3>
+                <h3 class="panel-title custom-font" title="{{information.reportName}}"
+                    ng-if="information.dashboard.length<=30">{{information.reportName}}</h3></a>
+            </div>
+            
+            <div class="panel-body">
+              <table style="width: 100%" cellspacing="1" cellpadding="1">
+                <tr>
+                  <td><img ng-src="{{information.system=='OBIEE'?'images/OBIEE.png':'images/Tableau-logo-small.png'}}"
+                           width="50px" height="50px"/></td>
+                  <td>
+                    <table style="width: 100%">
+                      <tr>
+                        <td>Application Name :</td>
+                        <td>{{information.application}}</td>
+                      </tr>
+                      <tr>
+                        <td>Usage Count :</td>
+                        <td>{{information.totalCount}}</td>
+                      </tr>
+                      <tr>
+                        <td>Average Ranking :</td>
+                        <td>
+                          <div>
+                            <div class="pull-left">
+                              <average-star-rating ng-model="information.averageRanking" max="5">
+                                <average-star-rating>
+                            </div>
+                            <div class="pull-left pl-10">({{information.totalUsers}})</div>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

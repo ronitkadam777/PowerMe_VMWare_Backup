@@ -1,0 +1,152 @@
+<div id="sidebar-wrap" ng-controller="NavCtrl">
+  <accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
+
+    <accordion-group is-open="status.isFirstOpen"
+                     ng-class="{'open': status.isFirstOpen, 'closed': !status.isFirstOpen}">
+      <accordion-heading>
+        Navigation <i class="fa"
+                      ng-class="{'fa-angle-up': status.isFirstOpen, 'fa-angle-down': !status.isFirstOpen}"></i>
+      </accordion-heading>
+      <ul id="navigation" nav-collapse ripple>
+        <li ui-sref-active="active" ng-show="currentUser.role=='CONSUMER'"><a ui-sref="app.dashboardConsumer">
+          <fa name="home"></fa>
+          <span>Home</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="app.dashboard">
+          <fa name="dashboard"></fa>
+          <span>Dashboard</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="app.bookmark">
+          <fa name="bookmark"></fa>
+          <span>Bookmarks</span></a></li>
+       <!--
+        <li ui-sref-active="active"><a ui-sref="app.instrumentPanel">
+          <fa name="bookmark"></fa>
+          <span>Instrument Panel</span></a></li>-->
+        
+          <!--
+        <li ui-sref-active="active"><a ui-sref="app.help"><fa name="book"></fa> <span>Documentation</span></a></li>
+          -->
+
+        <li>
+          <!-- <a href="javascript:;"><fa name="magic"></fa> <span>Catalog</span></a> -->
+          <a href="javascript:;" ng-click="opencatalog()">
+            <fa name="list"></fa>
+            <span>Catalog</span></a>
+
+          <div ui-sref-active="active" id="tree1" style="padding-left:40px;"></div>
+
+        </li>
+
+        <li ui-sref-active="active"><a ui-sref="app.magic">
+          <fa name="book"></fa>
+          <span>Playbooks</span></a>
+          <ul>
+            <div ng-repeat="tag_name in tag_names">
+              <li ui-sref-active="active"><a ui-sref="app.tagtiles">
+                <fa name="tag" style="padding-left: 0.3cm"></fa>
+                <span ng-controller="tagtilesCtrl" ng-click="tag_name_selected(tag_name)">{{tag_name}}</span></a></li>
+            </div>
+
+          </ul>
+        </li>
+
+        <li ui-sref-active="active"><a ui-sref="app.magic">
+          <fa name="gear"></fa>
+          <span>Configure</span></a>
+          <ul>
+
+            <li ui-sref-active="active"><a ui-sref="app.tags">
+              <fa name="book"></fa>
+              <span>Playbooks</span></a></li>
+            <li ui-sref-active="active"><a ui-sref="app.persona">
+              <fa name="users"></fa>
+              <span>Persona</span></a></li>
+            <li ng-show="currentUser.role ==='ADMIN' || currentUser.role ==='SUPERADMIN'" ui-sref-active="active"><a ui-sref="app.usageProfiling">
+              <fa name="th-list"></fa>
+               <span>Usage Profiling</span>
+                </a></li>
+            <li ng-show="currentUser.role !=='CONSUMER'" ui-sref-active="active"><a ui-sref="app.descriptionDownloadsCtrl">
+              <i class="fa fa-download" aria-hidden="true"></i>
+               <span>Description Download</span>
+                </a></li>
+            </ul>
+        </li>
+             <li ui-sref-active="active">
+                <a>
+                  <fa name="gavel"></fa>
+                  <span>Data Dictionary</span>
+                </a>
+                <ul>
+                  <li ui-sref-active="active">
+                    <a>
+                      <span>SAP BO</span>
+                    </a>
+                    <ul>
+                      <li ui-sref-active="active">
+                        <a><span>EnqueroBOXI4</span></a>
+                        <ul>
+                          <li ui-sref-active="active">
+                            <a><span>Report View</span></a>
+                            <ul>
+                              <li ui-sref-active="active" ng-repeat="unv in universes">
+                                <a ui-sref="app.univReports.list({universeId: unv.Universe_Id})">
+                                  <span>{{unv.Universe_Name}}</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </li>
+                          <li ui-sref-active="active">
+                            <a><span>Universe View</span></a>
+                            <ul>
+                              <li ui-sref-active="active" ng-repeat="unv in universes">
+                                <a ui-sref="app.datadictionary({universeId: unv.Universe_Id})">
+                                  <span>{{unv.Universe_Name}}</span>
+                                </a>
+                              </li>
+                            </ul>
+
+                          </li>
+                        </ul>
+                      </li>
+
+
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+
+
+        <!-- <li ui-sref-active="active"><a ui-sref="app.help">
+<fa name="gavel"></fa>
+<span>Help</span></a> -->
+        <li ui-sref-active="active"><a ui-sref="app.analysis">
+          <fa name="line-chart"></fa>
+          <span>Analysis</span></a></li>
+        <li ui-sref-active="active">
+            <a><fa name="gavel"></fa><span>Compliance</span></a>
+                <ul>
+                    <li ui-sref-active="active"><a ui-sref="app.ComplianceKeyAssets"><fa name="gavel"></fa><span>Compliance Zone</span></a></li>
+                    <li ui-sref-active="active"><a ui-sref="app.ComplianceSettings"><fa name="gavel"></fa><span>Compliance Settings</span></a></li>
+                </ul>
+        </li>
+        <li ui-sref-active="active"><a ui-sref="app.download">
+            <fa name="download"></fa>
+            <span>Download</span></a></li>
+        <li ui-sref-active="active"><a
+          href="https://vmshare.vmware.com/sales/salesopskb/fast/bi/bicc/BICC%20Internal%20Library/BI_Catalog_Help.aspx?PageView=Shared"
+          target="_blank">
+          <fa name="wrench"></fa>
+          <span>Resources</span></a>
+        <li ui-sref-active="active"><a
+          href="https://vmshare.vmware.com/sales/salesopskb/fast/bi/bicc/Shared%20Documents/BI%20Integrated%20Portal.aspx"
+          target="_blank">
+          <fa name="sign-out"></fa>
+          <span>BI Portal</span></a>
+          <br/>
+          <br/>
+          <br/>
+        </li>
+      </ul>
+      <a href="http://enquero.com/products/powerme/enterprise-bi-hub/" target="_blank"><span
+        style="font-size: 20px;color: white;">PowerMe</span></a>
+      &copy;Enquero
+      <hr/>
